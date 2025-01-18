@@ -3,27 +3,30 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
+#include <chrono>  // Dodano bibliotekę do pomiaru czasu
+
+using namespace std;  // Dodane, aby uprościć zapis
 
 // Funkcja porównująca dwa elementy
-bool porownaj(const std::string &a, const std::string &b) {
+bool porownaj(const string &a, const string &b) {
     return a + b > b + a;
 }
 
 // Funkcja tworzenia największej liczby
-std::string tworzNajwiekszaLiczba(std::vector<int> &liczby) {
-    std::vector<std::string> liczby_str;
+string tworzNajwiekszaLiczba(vector<int> &liczby) {
+    vector<string> liczby_str;
     
     // Przekształcenie liczb na ciągi znaków
     for (int liczba : liczby) {
-        liczby_str.push_back(std::to_string(liczba));
+        liczby_str.push_back(to_string(liczba));
     }
 
     // Posortowanie liczb
-    std::sort(liczby_str.begin(), liczby_str.end(), porownaj);
+    sort(liczby_str.begin(), liczby_str.end(), porownaj);
 
     // Połączenie liczb w jeden ciąg
-    std::string wynik = "";
-    for (const std::string &liczba : liczby_str) {
+    string wynik = "";
+    for (const string &liczba : liczby_str) {
         wynik += liczba;
     }
 
@@ -36,10 +39,10 @@ std::string tworzNajwiekszaLiczba(std::vector<int> &liczby) {
 }
 
 // Funkcja do odczytu danych z pliku
-void odczytajDane(const std::string &nazwa_pliku, std::vector<int> &liczby) {
-    std::ifstream plik(nazwa_pliku);
+void odczytajDane(const string &nazwa_pliku, vector<int> &liczby) {
+    ifstream plik(nazwa_pliku);
     if (!plik) {
-        std::cerr << "Błąd otwarcia pliku wejściowego!" << std::endl;
+        cerr << "Błąd otwarcia pliku wejściowego!" << endl;
         return;
     }
 
@@ -52,10 +55,10 @@ void odczytajDane(const std::string &nazwa_pliku, std::vector<int> &liczby) {
 }
 
 // Funkcja do zapisu wyników do pliku
-void zapiszWynik(const std::string &nazwa_pliku, const std::string &wynik) {
-    std::ofstream plik(nazwa_pliku);
+void zapiszWynik(const string &nazwa_pliku, const string &wynik) {
+    ofstream plik(nazwa_pliku);
     if (!plik) {
-        std::cerr << "Błąd otwarcia pliku wyjściowego!" << std::endl;
+        cerr << "Błąd otwarcia pliku wyjściowego!" << endl;
         return;
     }
 
@@ -64,20 +67,35 @@ void zapiszWynik(const std::string &nazwa_pliku, const std::string &wynik) {
 }
 
 int main() {
+    // Zmienna do pomiaru czasu
+    auto start = chrono::high_resolution_clock::now();
+
     // Odczyt danych z pliku
-    std::vector<int> liczby;
-    odczytajDane("input.txt", liczby);
+    vector<int> liczby;
+    odczytajDane("dane.txt", liczby);
     if (liczby.empty()) {
-        std::cerr << "Brak danych do przetworzenia." << std::endl;
+        cerr << "Brak danych do przetworzenia." << endl;
         return 1;
     }
 
     // Tworzenie największej liczby
-    std::string wynik = tworzNajwiekszaLiczba(liczby);
-    std::cout << "Najwieksza liczba: " << wynik << std::endl;
+    string wynik = tworzNajwiekszaLiczba(liczby);
+    cout << "Najwieksza liczba: " << wynik << endl;
 
     // Zapis wyniku do pliku
-    zapiszWynik("output.txt", wynik);
+    zapiszWynik("wynik.txt", wynik);
+
+    // Pomiar końca czasu
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> czas_trwania = end - start;
+
+    // Zapisz czas wykonania do pliku (np. w milisekundach)
+    ofstream czas_pliku("czas.txt", ios::app);  // Dopisujemy do pliku
+    if (czas_pliku) {
+        czas_pliku << "Czas wykonania: " << czas_trwania.count() << " sek." << endl;
+    } else {
+        cerr << "Błąd zapisu czasu do pliku!" << endl;
+    }
 
     return 0;
 }
