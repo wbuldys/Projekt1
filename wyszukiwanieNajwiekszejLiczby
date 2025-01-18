@@ -3,7 +3,8 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
-#include <chrono>  // Dodano bibliotekę do pomiaru czasu
+#include <chrono>  // Biblioteka do pomiaru czasu
+#include <ctime>   // Biblioteka do uzyskania daty i godziny
 
 using namespace std;  // Dodane, aby uprościć zapis
 
@@ -55,14 +56,18 @@ void odczytajDane(const string &nazwa_pliku, vector<int> &liczby) {
 }
 
 // Funkcja do zapisu wyników do pliku
-void zapiszWynik(const string &nazwa_pliku, const string &wynik) {
-    ofstream plik(nazwa_pliku);
+void zapiszWynik(const string &nazwa_pliku, const string &wynik, const string &data_i_godzina, double czas_trwania) {
+    ofstream plik(nazwa_pliku, ios::app);  // Otwieramy w trybie dopisywania
     if (!plik) {
         cerr << "Błąd otwarcia pliku wyjściowego!" << endl;
         return;
     }
 
-    plik << wynik;
+    // Zapisz datę, godzinę, wynik oraz czas wykonania
+    plik << "Data i godzina wykonania: " << data_i_godzina;
+    plik << "Najwieksza liczba: " << wynik << endl;
+    plik << "Czas wykonania: " << czas_trwania << " sek." << endl;
+
     plik.close();
 }
 
@@ -78,24 +83,28 @@ int main() {
         return 1;
     }
 
+    // Wyświetlanie danych wejściowych
+    cout << "Dane wejściowe: ";
+    for (int liczba : liczby) {
+        cout << liczba << " ";
+    }
+    cout << endl;
+
     // Tworzenie największej liczby
     string wynik = tworzNajwiekszaLiczba(liczby);
     cout << "Najwieksza liczba: " << wynik << endl;
 
     // Zapis wyniku do pliku
-    zapiszWynik("wynik.txt", wynik);
-
-    // Pomiar końca czasu
+    // Uzyskiwanie bieżącej daty i godziny
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> czas_trwania = end - start;
 
-    // Zapisz czas wykonania do pliku (np. w milisekundach)
-    ofstream czas_pliku("czas.txt", ios::app);  // Dopisujemy do pliku
-    if (czas_pliku) {
-        czas_pliku << "Czas wykonania: " << czas_trwania.count() << " sek." << endl;
-    } else {
-        cerr << "Błąd zapisu czasu do pliku!" << endl;
-    }
+    // Uzyskiwanie bieżącej daty i godziny
+    time_t now = chrono::system_clock::to_time_t(chrono::system_clock::now());
+    string data_i_godzina = ctime(&now); // Funkcja ctime zwraca datę i godzinę w formacie tekstowym
+
+    // Zapisanie wyniku, daty i godziny oraz czasu wykonania do pliku czas.txt
+    zapiszWynik("czas.txt", wynik, data_i_godzina, czas_trwania.count());
 
     return 0;
 }
