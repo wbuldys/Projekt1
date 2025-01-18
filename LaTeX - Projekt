@@ -34,11 +34,31 @@
 \newpage
 
 \section{Wstęp}
+Problem projektu polega na znalezieniu możliwie największej liczby, poprzez łączenie zadanych elementów(liczb) w sposób, który umożliwi utworzenie jak największej liczby.
+Element nie muszą być posortowane, jednak ich kolejność może wpłynąć na wynik działania programu, z tego względu ważna jest odpowienia manipulacja kolejnością liczb, aby uzyskać największy możliwy wynik.
+
+\newpage
 \section{Szczegóły projektu}
 \subsection{Opis problemu}
+W programie dany jest zbiór liczb w postaci tablicy, którego celem jest utworzenie największej możliwej liczby, poprzez łączenie danych wejściowych, tak, aby ich wynik był jak największy. 
+\newline Dane wejściowe(liczby) mają być traktowane jako ciągi znaków, a nie liczby całkowite, ponieważ w kontekście tego zagadnienia mogłoby to doprowadzić do niewłaściwego wyniku końcowego.
 \subsection{Podstawy teoretyczne projektu}
+W celu rozwiązania powyższego problemu, należy porównać różne kombinacje liczb, w sposób umożliwiający sprawdzenie, która z nich zwraca najwyższy wynik.
+\newline Głównym krokiem jest porównanie liczb w postacji ciągów znaków, aby ustalić, która z kombinacji daje wyższy wynik.
+Przykładowo dwie liczby \emph{a} i \emph{b}, porównujemy w dwóch możliwych układach:
+\begin{itemize}
+\centering
+    \item a+b
+    \item b+a
+\end{itemize}
+gdzie znak "+", oznacza konkatenację łańcuchów. 
+\newline Wybierany jest ten układ, który zwraca większy ciąg.
 \subsection{Szczegóły implementacji}
-\section{Algorytm w kodzie blokowym}
-\section{Pseudokod działania algorytmu}
+\begin{enumerate}
+    \item 
+\end{enumerate}
+\section{Przykładowy zapis algorytmu}
+\subsection{Kod blokowy}
+\subsection{Pseudokod}
 
 \end{document}
