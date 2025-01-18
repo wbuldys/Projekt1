@@ -1,8 +1,10 @@
 \documentclass[12pt,twoside]{article}
-\usepackage{graphicx} % Required for inserting images
+\usepackage{graphicx} 
 \usepackage[hidelinks]{hyperref}
 \usepackage{polski}
-
+\usepackage[linesnumbered]{algorithm2e}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
 \begin{document}
 
 
@@ -55,10 +57,93 @@ gdzie znak "+", oznacza konkatenację łańcuchów.
 \newline Wybierany jest ten układ, który zwraca większy ciąg.
 \subsection{Szczegóły implementacji}
 \begin{enumerate}
-    \item 
+    \item Porównanie liczb.
+    \newline Zaimplementowana została funkcja porównująca liczby w postawi ciągów znaków. Jest to kluczowe do otrzymania prawidłowego rozwiązania powyższego programu.
+    \item Funkcja główna.
+    \newline Została zaimplementowana w celu wywołania odpowiednich operacjach na danych wejściowych, sortowaniu ich oraz tworzeniu wyniku.
+    \item Testowanie programu.
+    \newline Program zawiera fukcję testującą poprawność działania algorytmu na różnych zestawach danych.
+    \item Odczyt i zapis do plików.
+    \newline Program umożliwia zarówno odczyt danych z plików, jak i zapis wyników do plików testowych.
+    \item Analiza wyników
+    \newline Program zmierzy czas obliczeń w zależności od rozmiaru danych wejściowych. 
 \end{enumerate}
 \section{Przykładowy zapis algorytmu}
 \subsection{Kod blokowy}
 \subsection{Pseudokod}
+\begin{algorithm}
+\SetKwFunction{FCompare}{porownaj}
+\SetKwFunction{FMain}{tworzNajwiekszaLiczba}
 
+\SetKwProg{Fn}{Funkcja}{:}{}
+\Fn{\FCompare{$a: \text{string}, b: \text{string}$} $\rightarrow \text{bool}$}{
+    \KwReturn{$a + b > b + a$}
+}
+
+\Fn{\FMain{$\text{liczby: lista[int]}$} $\rightarrow \text{string}$}{
+    $\text{liczby\_str} \gets \text{nowa lista[string]}$\;
+
+    \For{każda liczba w $\text{liczby}$}{
+        dodaj $\text{to\_string}(\text{liczba})$ do $\text{liczby\_str}$\;
+    }
+
+    sortuj $\text{liczby\_str}$ według \FCompare\;
+
+    $\text{wynik} \gets \text{""}$\;
+
+    \For{każdy element w $\text{liczby\_str}$}{
+        $\text{wynik} \gets \text{wynik} + \text{element}$\;
+    }
+
+    \If{$\text{wynik}[0] == '0'$}{
+        \KwReturn{"0"}\;
+    }
+
+    \KwReturn{$\text{wynik}$}\;
+}
+
+\end{algorithm}
+
+\section{Zoptymalizowany kod programu}
+\subsection{Wprowadzone zmiany}
+\begin{enumerate}
+   \item Zarządzanie operacjami na plikach.
+    \newline Wszyskie dane wynikowe są przechowywane w pamięci oraz zapisywane do pliku jednorazowo na końcu programu, dzięki czemu minimalizujemy liczbę operacji otwierania i zamykania pliku.
+    \item Zarządzanie ciągami w funkcji.
+    \newline Konwertowanie liczb na ciągi odbywa się w miejscu, podczas ich sortowania. Dzięki temu zabiegowi unikamy tworzenia dodatkowego wektora, co redukuje zużycie pamięci.
+    \item Lepsza obsługa błędów.
+    \newline Dodane zostały szczegółowe komunikaty o błędach, w przypadku braku danych wejściowych program kończy działanie i wyświetla odpowiedni komunikat.
+\end{enumerate}
+\subsection{Schemat blokowy}
+\subsection{Pseudokod}
+\begin{algorithm}[H]
+\SetKwFunction{FSort}{sortujLiczby}
+\SetKwFunction{FJoin}{polaczLiczby}
+
+\SetKwProg{Fn}{Funkcja}{:}{}
+\Fn{\FSort{$\text{liczby}$}}{
+    Posortuj $\text{liczby}$ według następującego kryterium:\;
+    \For{dwóch liczb $a$ i $b$}{
+        \If{$\text{to\_string}(a) + \text{to\_string}(b) > \text{to\_string}(b) + \text{to\_string}(a)$}{
+            $a$ jest przed $b$\;
+        }
+        \Else{
+            $b$ jest przed $a$\;
+        }
+    }
+}
+
+\Fn{\FJoin{$\text{liczby}$}}{
+    $\text{wynik} \gets \text{Pusty ciąg znaków}$\;
+    \For{każda liczba w $\text{liczby}$}{
+        Dodaj $\text{to\_string}(\text{liczba})$ do $\text{wynik}$\;
+    }
+    \KwReturn{$\text{wynik}$}\;
+}
+
+\end{algorithm}
+\section{Testy i analiza wyników}
+\section{Złożoność czasowa i obliczeniowa}
+\section{Wnioski}
+\section{Podsumowanie}
 \end{document}
