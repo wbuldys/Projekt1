@@ -1,110 +1,123 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
-#include <fstream>
-#include <chrono>
-#include <ctime>
 #include <algorithm>
+#include <chrono>
+#include <utility>
+#include <iomanip>
+#include <sstream>
 
 using namespace std;
 
-// Funkcja porównująca dwa elementy (optymalizacja porównania)
-bool porownaj(const string &a, const string &b) {
-    return a + b > b + a;
-}
-
-// Funkcja tworzenia największej liczby
-string tworzNajwiekszaLiczba(vector<int> &liczby) {
-    vector<string> liczby_str;
-    
-    // Przekształcenie liczb na ciągi znaków
+// Funkcja do znajdowania największej liczby przez połączenie elementów
+string znajdzNajwiekszaLiczbe(vector<int>& liczby) {
+    // Cache'owanie wyników to_string
+    vector<pair<string, int>> liczby_str;
     for (int liczba : liczby) {
-        liczby_str.push_back(to_string(liczba));
+        liczby_str.emplace_back(to_string(liczba), liczba);
     }
 
-    // Sortowanie liczb na podstawie porównania
-    sort(liczby_str.begin(), liczby_str.end(), porownaj);
+    // Sortowanie z wykorzystaniem cache'u
+    sort(liczby_str.begin(), liczby_str.end(), [](const pair<string, int>& a, const pair<string, int>& b) {
+        return a.first + b.first > b.first + a.first;
+    });
 
-    // Połączenie liczb w jeden ciąg
-    string wynik = "";
-    for (const string &liczba : liczby_str) {
-        wynik += liczba;
-    }
-
-    // Usunięcie wiodących zer
-    if (wynik[0] == '0') {
-        return "0";
+    // Konstrukcja wyniku
+    string wynik;
+    for (const auto& p : liczby_str) {
+        wynik += p.first;
     }
 
     return wynik;
 }
 
-// Funkcja do odczytu danych z pliku
-void odczytajDane(const string &nazwa_pliku, vector<int> &liczby) {
-    ifstream plik(nazwa_pliku);
-    if (!plik) {
-        cerr << "Błąd otwarcia pliku wejściowego!" << endl;
-        return;
-    }
-
+// Funkcja do wczytywania danych z pliku
+vector<int> wczytajDane(const string& nazwaPliku) {
+    ifstream plik(nazwaPliku);
+    vector<int> liczby;
     int liczba;
-    while (plik >> liczba) {
-        liczby.push_back(liczba);
+
+    if (plik.is_open()) {
+        while (plik >> liczba) {
+            liczby.push_back(liczba);
+        }
+        plik.close();
+    } else {
+        cerr << "Nie udało się otworzyć pliku: " << nazwaPliku << endl;
     }
 
-    plik.close();
+    return liczby;
 }
 
-// Funkcja do zapisu wyników do pliku
-void zapiszWynik(const string &nazwa_pliku, const string &wynik, const string &data_i_godzina, double czas_trwania) {
-    ofstream plik(nazwa_pliku, ios::app);  // Otwieramy w trybie dopisywania
-    if (!plik) {
-        cerr << "Błąd otwarcia pliku wyjściowego!" << endl;
-        return;
+// Funkcja do formatowania czasu z dynamiczną precyzją
+string sformatujCzas(double czasWykonania) {
+    ostringstream oss;
+    if (czasWykonania < 0.001) {
+        oss << fixed << setprecision(9);
+    } else {
+        oss << fixed << setprecision(6);
     }
+    oss << czasWykonania;
+    return oss.str();
+}
 
-    // Zapisz datę, godzinę, wynik oraz czas wykonania
-    plik << "Data i godzina wykonania: " << data_i_godzina;
-    plik << "Najwieksza liczba: " << wynik << endl;
-    plik << "Czas wykonania: " << czas_trwania << " sek." << endl;
+// Funkcja do zapisu wyniku do pliku
+void zapiszWynik(const string& nazwaPliku, const string& wynik, double czasWykonania, const vector<int>& daneWejsciowe) {
+    ofstream plik(nazwaPliku, ios::app);
 
-    plik.close();
+    if (plik.is_open()) {
+        auto teraz = chrono::system_clock::now();
+        time_t czas = chrono::system_clock::to_time_t(teraz);
+
+        plik << "Dane wejściowe: ";
+        for (int liczba : daneWejsciowe) {
+            plik << liczba << " ";
+        }
+        plik << endl;
+
+        plik << "Wynik: " << wynik << endl;
+        plik << "Czas wykonania: " << sformatujCzas(czasWykonania) << " sekundy" << endl;
+        plik << "Data i godzina: " << ctime(&czas);
+        plik << "-------------------------------" << endl;
+
+        plik.close();
+    } else {
+        cerr << "Nie udało się zapisać wyników do pliku: " << nazwaPliku << endl;
+    }
 }
 
 int main() {
-    // Zmienna do pomiaru czasu
-    auto start = chrono::high_resolution_clock::now();
+    // Wczytywanie danych z pliku
+    string plikWejsciowy = "dane.txt";
+    string plikWyjsciowy = "wynik.txt";
+    vector<int> liczby = wczytajDane(plikWejsciowy);
 
-    // Odczyt danych z pliku
-    vector<int> liczby;
-    odczytajDane("dane.txt", liczby);
     if (liczby.empty()) {
-        cerr << "Brak danych do przetworzenia." << endl;
+        cerr << "Brak danych wejściowych" << endl;
         return 1;
     }
 
-    // Wyświetlanie danych wejściowych
+    // Wyświetlenie danych wejściowych
     cout << "Dane wejściowe: ";
     for (int liczba : liczby) {
         cout << liczba << " ";
     }
     cout << endl;
 
-    // Tworzenie największej liczby
-    string wynik = tworzNajwiekszaLiczba(liczby);
-    cout << "Najwieksza liczba: " << wynik << endl;
+    // Pomiar czasu wykonania algorytmu
+    auto start = chrono::high_resolution_clock::now();
+    string wynik = znajdzNajwiekszaLiczbe(liczby);
+    auto end = chrono::high_resolution_clock::now();
+
+    chrono::duration<double> czasWykonania = end - start;
+
+    // Wyświetlenie wyniku
+    cout << "Największa możliwa liczba: " << wynik << endl;
+    cout << "Czas wykonania: " << sformatujCzas(czasWykonania.count()) << " sekundy" << endl;
 
     // Zapis wyniku do pliku
-    // Uzyskiwanie bieżącej daty i godziny
-    auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double> czas_trwania = end - start;
-
-    // Uzyskiwanie bieżącej daty i godziny
-    time_t now = chrono::system_clock::to_time_t(chrono::system_clock::now());
-    string data_i_godzina = ctime(&now); // Funkcja ctime zwraca datę i godzinę w formacie tekstowym
-
-    // Zapisanie wyniku, daty i godziny oraz czasu wykonania do pliku czas.txt
-    zapiszWynik("czas.txt", wynik, data_i_godzina, czas_trwania.count());
+    zapiszWynik(plikWyjsciowy, wynik, czasWykonania.count(), liczby);
 
     return 0;
 }
