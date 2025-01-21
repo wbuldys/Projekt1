@@ -1,55 +1,78 @@
 \documentclass[12pt,twoside]{article}
 \usepackage{graphicx} 
+\usepackage{float} 
 \usepackage[hidelinks]{hyperref}
 \usepackage{polski}
 \usepackage[linesnumbered]{algorithm2e}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage{enumitem} 
+\usepackage{titlesec}  
+\usepackage[a4paper,left=2.5cm,right=2.5cm,top=2cm,bottom=2cm,includefoot=false,includehead=false,footskip=1.16cm]{geometry}
+\usepackage[none]{hyphenat}
+\sloppy
+\setlist[itemize]{noitemsep, topsep=0pt} 
+\setlist[enumerate]{noitemsep, topsep=0pt} 
+\usepackage[T1]{fontenc}                 
+\usepackage{courier}                     
+\usepackage{mathptmx} 
+
+\linespread{1.5} % interlinia 1
+\setlength{\parskip}{0pt} % Usunięcie odstępów między akapitami
+\setlength{\parindent}{1em} % Wcięcie akapitu
+
+\setlength{\textfloatsep}{5pt}
+% Zmniejszenie odstępów w nagłówkach
+\titlespacing\section{0pt}{5pt}{5pt}
+\titlespacing\subsection{0pt}{5pt}{5pt}
+\titlespacing\subsubsection{0pt}{5pt}{5pt}
+
+\setlength{\abovedisplayskip}{5pt} % Zmniejszenie odstępów przed równaniami
+\setlength{\belowdisplayskip}{5pt}  % Zmniejszenie odstępów po równaniach
+
 \begin{document}
 
 
-\begin{figure}
+
+\begin{titlepage}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.75\linewidth]{wmifs_pl (2).png}
-    \label{fig:enter-label}
+    \label{logo}
 \end{figure}
- 
-\begin{titlepage}
+\vspace{2cm}
     \centering
-    {\textbf{\Large Wanesa Bułdyś}} \\[0.5cm]
+    {\textbf{\Large Wanesa Bułdyś}} \\[1.0cm]
     {\huge Wyszukiwanie największej możliwej liczby poprzez konstrukcję zadanych elementów} \\[2.5cm]
     {\Large Projekt inżynierski} \\[2.0cm]
 
     \begin{flushleft}
         {\large Opiekun pracy:} \\[0.3cm]
-        {\small dr hab. inż. \Large{Mariusz Borkowski}\small, prof. PRz} \\[2.0cm]
+        {\small dr hab. inż. \Large{Mariusz Borkowski}\small, prof. PRz} \\[5.0cm]
     \end{flushleft}
 
     {\large Rzeszów, 2025}
     \vfill
 \end{titlepage}
 
-
-
 \newpage
 \tableofcontents
 \newpage
 
 \section{Wstęp}
-Problem projektu polega na znalezieniu możliwie największej liczby, poprzez łączenie zadanych elementów(liczb) w sposób, który umożliwi utworzenie jak największej liczby.
-Element nie muszą być posortowane, jednak ich kolejność może wpłynąć na wynik działania programu, z tego względu ważna jest odpowienia manipulacja kolejnością liczb, aby uzyskać największy możliwy wynik.
+Problem projektu polega na znalezieniu możliwie największej liczby, poprzez łączenie zadanych elementów (liczb) w sposób, który umożliwi utworzenie jak największej liczby.
+Elementy nie muszą być posortowane, jednak ich kolejność może wpłynąć na wynik działania programu, z tego względu ważna jest odpowiednia manipulacja kolejnością liczb, aby uzyskać największy możliwy wynik.
 
 \newpage
 \section{Szczegóły projektu}
 \subsection{Opis problemu}
-W programie dany jest zbiór liczb w postaci tablicy, którego celem jest utworzenie największej możliwej liczby, poprzez łączenie danych wejściowych, tak, aby ich wynik był jak największy. 
-\newline Dane wejściowe(liczby) mają być traktowane jako ciągi znaków, a nie liczby całkowite, ponieważ w kontekście tego zagadnienia mogłoby to doprowadzić do niewłaściwego wyniku końcowego.
+W programie dany jest zbiór liczb w postaci tablicy, którego celem jest utworzenie największej możliwej liczby poprzez łączenie danych wejściowych, tak aby ich wynik był jak największy. 
+\newline Dane wejściowe (liczby) mają być traktowane jako ciągi znaków, a nie liczby całkowite, ponieważ w kontekście tego zagadnienia mogłoby to doprowadzić do niewłaściwego wyniku końcowego.
 \subsection{Podstawy teoretyczne projektu}
-W celu rozwiązania powyższego problemu, należy porównać różne kombinacje liczb, w sposób umożliwiający sprawdzenie, która z nich zwraca najwyższy wynik.
-\newline Głównym krokiem jest porównanie liczb w postacji ciągów znaków, aby ustalić, która z kombinacji daje wyższy wynik.
+W celu rozwiązania powyższego problemu, należy porównać różne kombinacje liczb w sposób umożliwiający sprawdzenie, która z nich zwraca najwyższy wynik.
+\newline Głównym krokiem jest porównanie liczb w postaci ciągów znaków, aby ustalić, która z kombinacji daje wyższy wynik.
 Przykładowo dwie liczby \emph{a} i \emph{b}, porównujemy w dwóch możliwych układach:
 \begin{itemize}
-\centering
     \item a+b
     \item b+a
 \end{itemize}
@@ -58,26 +81,47 @@ gdzie znak "+", oznacza konkatenację łańcuchów.
 \subsection{Szczegóły implementacji}
 \begin{enumerate}
     \item Porównanie liczb.
-    \newline Zaimplementowana została funkcja porównująca liczby w postawi ciągów znaków. Jest to kluczowe do otrzymania prawidłowego rozwiązania powyższego programu.
+    \newline Zaimplementowana została funkcja porównująca liczby w postaci ciągów znaków. Jest to kluczowe do otrzymania prawidłowego rozwiązania powyższego programu.
     \item Funkcja główna.
-    \newline Została zaimplementowana w celu wywołania odpowiednich operacjach na danych wejściowych, sortowaniu ich oraz tworzeniu wyniku.
+    \newline Została zaimplementowana w celu wywołania odpowiednich operacji na danych wejściowych, sortowaniu ich oraz tworzeniu wyniku.
     \item Testowanie programu.
     \newline Program zawiera fukcję testującą poprawność działania algorytmu na różnych zestawach danych.
     \item Odczyt i zapis do plików.
     \newline Program umożliwia zarówno odczyt danych z plików, jak i zapis wyników do plików testowych.
-    \item Analiza wyników
+    \item Analiza wyników.
     \newline Program zmierzy czas obliczeń w zależności od rozmiaru danych wejściowych. 
 \end{enumerate}
+
+\newgeometry{left=2.5cm,right=2.5cm,top=2cm,bottom=2cm} % Ustawienia dla 3 rozdziału
+\setlength{\parskip}{0pt} % Usunięcie odstępów między akapitami w 3 rozdziale
+\setlength{\parindent}{1em} % Wcięcie akapitu w 3 rozdziale
+\titlespacing\section{0pt}{5pt}{5pt} % Zmniejszenie odstępów przed nagłówkami w 3 rozdziale
+
 \section{Przykładowy zapis algorytmu}
-\subsection{Kod blokowy}
+\subsection{Schemat blokowy}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{schemat.png}
+    \caption{Schemat blokowy funkcji tworzNajwiekszaLiczbe()}
+    \label{rys.1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{schemat porownaj.png}
+    \caption{Schemat blokowy funkcji porownaj()}
+    \label{Rys.2}
+\end{figure}
+\newpage
 \subsection{Pseudokod}
-\begin{algorithm}
+\begin{algorithm}[H]
 \SetKwFunction{FCompare}{porownaj}
 \SetKwFunction{FMain}{tworzNajwiekszaLiczba}
 
 \SetKwProg{Fn}{Funkcja}{:}{}
 \Fn{\FCompare{$a: \text{string}, b: \text{string}$} $\rightarrow \text{bool}$}{
-    \KwReturn{$a + b > b + a$}
+    \textbf{Return} {$a + b > b + a$}
 }
 
 \Fn{\FMain{$\text{liczby: lista[int]}$} $\rightarrow \text{string}$}{
@@ -96,14 +140,14 @@ gdzie znak "+", oznacza konkatenację łańcuchów.
     }
 
     \If{$\text{wynik}[0] == '0'$}{
-        \KwReturn{"0"}\;
+        \textbf{Return} {"0"}\;
     }
 
-    \KwReturn{$\text{wynik}$}\;
+    \textbf{Return} {$\text{wynik}$}\;
 }
-
 \end{algorithm}
 
+\newpage
 \section{Zoptymalizowany kod programu}
 \subsection{Wprowadzone zmiany}
 \begin{enumerate}
@@ -114,7 +158,9 @@ gdzie znak "+", oznacza konkatenację łańcuchów.
     \item Lepsza obsługa błędów.
     \newline Dodane zostały szczegółowe komunikaty o błędach, w przypadku braku danych wejściowych program kończy działanie i wyświetla odpowiedni komunikat.
 \end{enumerate}
-\subsection{Schemat blokowy}
+
+
+
 \subsection{Pseudokod}
 \begin{algorithm}[H]
 \SetKwFunction{FSort}{sortujLiczby}
@@ -138,12 +184,134 @@ gdzie znak "+", oznacza konkatenację łańcuchów.
     \For{każda liczba w $\text{liczby}$}{
         Dodaj $\text{to\_string}(\text{liczba})$ do $\text{wynik}$\;
     }
-    \KwReturn{$\text{wynik}$}\;
+    \textbf{Return} $\text{wynik}$\;
 }
-
 \end{algorithm}
+
+\subsection{Schemat blokowy}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{schematZoptymalizowany.png}
+    \caption{Schemat blokowy zoptymalizowanego programu}
+    \label{Rys.3}
+\end{figure}
+
 \section{Testy i analiza wyników}
+W obu programach zostały przeprowadzone testy na różnych zestawach danych, ich rezultaty zostały zapisane w poniższych tabelach.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+         \hline
+        Lp. & Dane wejściowe & Czas obliczeń [s] & Wynik\\
+        \hline
+         1. & 10 81 9 & 0.005984 & 98110\\
+        \hline
+         2. & 3 131 96 2 & 0.05795 & 9632131\\
+        \hline
+         3. & 51 00 7 41 6 & 0.007051 & 7651410\\
+        \hline
+         4. & 321 74 2 & 0.00547 & 743212\\
+        \hline
+         5. & 723 46 12 2 2 9 & 0.006688 & 9723462212\\
+        \hline
+    \end{tabular}
+    \caption{Testy pierwotnego kodu na różnych zestawach danych}
+    \label{tab1}
+\end{table}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+           \hline
+        Lp. & Dane wejściowe & Czas obliczeń [s]& Wynik\\
+        \hline
+         1. & 10 81 9 & 0.000004156  & 98110\\
+        \hline
+         2. & 3 131 96 2 & 0.000004832 & 9632131\\
+        \hline
+         3. & 51 00 7 41 6 & 0.000005075 & 7651410\\
+        \hline
+         4. & 321 74 2 & 0.000009270 & 743212\\
+        \hline
+         5. & 723 46 12 2 2 9 & 0.000009858 & 9723462212\\
+        \hline
+    \end{tabular}
+    \caption{Testy zoptymalizowanego kodu na różnych zestawach danych}
+    \label{tab2}
+\end{table}
+
+W obu tabelach są identyczne wyniki dla takich samych danych wejściowych, co oznacza, że oba programy działają poprawnie.
+W przypadku pierwotnego kodu czas obliczeniowy jest zauważalnie wyższy, optymalizacja kodu wykazała znaczną poprawę wydajności, co umożliwiło zredukowanie czasu obliczeń o rzędy wielkości.
+
+
 \section{Złożoność czasowa i obliczeniowa}
+W projekcie przeanalizowano dwa podejścia do rozwiązania problemu tworzenia największej liczby z podanych elementów. Dwa różne kody zostały porównane pod względem złożoności czasowej i obliczeniowej, oraz ich wydajności w zależności od liczby elementów w danych wejściowych.
+Pierwotna wersja programu bazuje na standardowej metodzie przekształcania liczb na ciągi znaków, sortowania ich i łączenia w jedną dużą liczbę.
+\newline Główne operacje to:
+\begin{enumerate}
+    \item Przekształcenie liczb na ciągi znaków – Złożoność: $O(n)$, gdzie n to liczba elementów.
+    \item Sortowanie ciągów znaków – Złożoność: $O(n \log n)$, ponieważ używamy standardowego sortowania.
+    \item Łączenie ciągów w jeden wynikowy ciąg – Złożoność: $O(n)$
+\end{enumerate}
+Całkowita złożoność czasowa w przypadku pierwotnego kodu wynosi $O(n log n)$, co jest głównie wynikiem operacji sortowania. Wykorzystanie pamięci zależy od liczby elementów i wymaga przechowywania liczb oraz ich reprezentacji w formie ciągów znaków.
+\newline W wersji zoptymalizowanej, zastosowano dodatkowe przechowywanie liczb w formie par (ciąg znaków, liczba), co pozwala na bardziej efektywne porównania w trakcie sortowania. 
+\newline W tej wersji główne operacje to:
+\begin{enumerate}
+    \item Przekształcenie liczb na ciągi znaków i przechowywanie ich w parze z oryginalnymi liczbami – Złożoność: $O(n)$.
+    \item Sortowanie par – Złożoność: $O(n \log n)$.
+    \item Łączenie ciągów znaków – Złożoność: $O(n)$.
+
+\end{enumerate}
+
+Optymalizacja drugiego kodu przyczynia się do lepszego porównania ciągów znaków, ale jej wpływ na czas wykonania może być widoczny przy bardzo dużych danych ze względu na dodatkowe operacje wykonywane w 1000 powtórzeniach. Z tego względu pierwsza wersja może okazać się bardziej efektywna przy mniejszych zbiorach danych.
+
+ Aby porównać wydajność obu wersji kodów, przygotowano wykresy oraz tabele ilustrujące czas wykonania w zależności od liczby elementów w danych wejściowych. Pokazują, jak zmienia się czas wykonania w zależności od rozmiaru danych oraz jak oba kody różnią się pod względem efektywności. Analiza wyników umożliwia ocenę wpływu optymalizacji na czas wykonania oraz na porównanie wydajności obu podejść przy różnych rozmiarach danych.
+\newpage
+\begin{table}[H]
+    \centering
+    \begin{tabular}{| c | c | p{4cm} | p{5cm} |}
+        \hline
+        Lp. & Liczba elementów & Czas wykonania (kod pierwotny)(sekundy)& Czas wykonania (kod zoptymalizowany)(sekundy) \\
+        \hline
+        1. & 1000 & 0.0000997 & 0.000989 \\
+        \hline
+        2. & 10000 & 0.001097 & 0.12965 \\
+        \hline
+        3. & 100000 & 0.0118685 & 0.132648 \\
+        \hline
+        4. & 1000000 & 1.043077 & 1.53991 \\
+        \hline
+    \end{tabular}
+    \caption{Złożoność czasowa}
+    \label{zCzasowa}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\linewidth]{wykres.png}
+    \caption{Wykres złożoności czasowej dla obu programów}
+    \label{Rys.4}
+\end{figure}
+
+\newpage
 \section{Wnioski}
+Po przeprowadzeniu testów i analizy obu wersji programu (pierwotnej i zoptymalizowanej), można zauważyć kilka istotnych różnic w ich wydajności oraz jakości wykonania.
+\newline Pierwotna wersja programu opierała się na prostym podejściu z sortowaniem liczb, które zostały przekonwertowane na ciągi znaków i posortowane według specjalnej funkcji porównawczej. Chociaż takie podejście jest wystarczające do rozwiązywania problemu w małych zbiorach danych, jego wydajność może być nieoptymalna dla dużych danych wejściowych.
+
+ Zoptymalizowana wersja znacząco poprawia wydajność, szczególnie przy dużych zbiorach danych. Zastosowanie par (pair<string, int>) pozwala na lepszą organizację danych, a dodatkowe operacje na ciągach znaków są bardziej efektywne. Dzięki temu, czas wykonania programu w przypadku dużej liczby powtórzeń (np. 1000 razy) może być zauważalnie krótszy, co jest szczególnie widoczne w testach.
+W obu wersjach programu zastosowano mechanizm pomiaru czasu, jednak w zoptymalizowanej wersji uwzględniono dodatkowe powtórzenia algorytmu (1000 razy), co pozwala uzyskać dokładniejsze wyniki pomiarów średniego czasu wykonania. Umożliwia to dokładniejsze porównanie czasów wykonania algorytmu oraz lepsze zrozumienie wpływu liczby powtórzeń na wydajność programu.
+Zoptymalizowana wersja programu nie tylko poprawia wydajność, ale także zapewnia lepszą organizację kodu, dzięki czemu jest bardziej czytelna i łatwiejsza do utrzymania. Dodatkowo, użycie funkcji do formatowania czasu oraz zapisywania wyników sprawia, że użytkownik ma dostęp do bardziej szczegółowych informacji o czasie wykonania i wynikach testów.
+
+\newpage
 \section{Podsumowanie}
+
+Projekt miał na celu stworzenie programu w języku C++, który pozwala na tworzenie jak największej możliwej liczby poprzez łączenie zadanych liczb w odpowiedniej kolejności. W ramach projektu przeanalizowano dwie wersje programu: pierwotną oraz zoptymalizowaną, dokonując porównań pod kątem wydajności, złożoności obliczeniowej, a także jakości wyników.
+
+Testy wykazały, że zoptymalizowana wersja programu ma znaczną przewagę w przypadku większych zbiorów danych. Dzięki przeprowadzonym pomiarom czasu oraz zastosowaniu odpowiednich optymalizacji, program jest bardziej efektywny, zarówno pod względem zużycia czasu, jak i pamięci.
+
+ Ostatecznie, wnioski z projektu mogą być pomocne w przypadku dalszej optymalizacji algorytmów działających na dużych zbiorach danych, gdzie wydajność jest kluczowym czynnikiem.
+
+ \newpage
+ \listoffigures
+ \listoftables
+ 
 \end{document}
