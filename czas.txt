@@ -1,0 +1,4 @@
+Data i godzina wykonania: Thu Jan 23 22:37:07 2025
+Najwieksza liczba: 98110
+Czas wykonania: 0.014358 sek.
+-----------------------------

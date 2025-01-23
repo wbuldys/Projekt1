@@ -1,0 +1,26 @@
+
+Dane wejsciowe: 10 81 9 
+Wynik: 98110
+Czas wykonania: 0.000004156 sekundy
+Data i godzina: Sun Jan 19 12:09:39 2025
+-------------------------------
+Dane wejsciowe: 3 131 96 2 
+Wynik: 9632131
+Czas wykonania: 0.000006832 sekundy
+Data i godzina: Sun Jan 19 12:11:59 2025
+-------------------------------
+Dane wejsciowe: 51 0 7 41 6 
+Wynik: 7651410
+Czas wykonania: 0.000007075 sekundy
+Data i godzina: Sun Jan 19 12:15:09 2025
+-------------------------------
+Dane wejsciowe: 321 74 2 
+Wynik: 743212
+Czas wykonania: 0.000009270 sekundy
+Data i godzina: Sun Jan 19 12:17:22 2025
+-------------------------------
+Dane wejsciowe: 723 46 12 2 2 9 
+Wynik: 9723462212
+Czas wykonania: 0.000009858 sekundy
+Data i godzina: Sun Jan 19 12:20:00 2025
+-------------------------------
